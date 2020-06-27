@@ -11,4 +11,4 @@ install:
 
 
 script:
-  - pytest
+  - pytest -v -k 'not signing'
