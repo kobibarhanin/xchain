@@ -75,5 +75,5 @@ class Blockchain:
         if is_valid:
             response = {'message': 'All good. The Blockchain is valid.'}
         else:
-            response = {'message': 'Houston, we have a problem. The Blockchain is not valid.'}
+            response = {'message': 'We have a problem. The Blockchain is not valid.'}
         return response

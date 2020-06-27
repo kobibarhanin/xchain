@@ -13,8 +13,8 @@ SIG_KEY_PATH = 'items/private_key.pem'
 VER_KEY_PATH = 'items/public_key.pem'
 
 entries = [
-    {'issuer': 'haifa university', 'subject': 'kobi', 'listing': {'grade': '85', 'subject': 'intro to cs'}},
-    {'issuer': 'haifa university', 'subject': 'kobi', 'listing': {'grade': '85', 'subject': 'data structures'}},
+    {'issuer': 'haifa university', 'subject': 'student_1', 'listing': {'grade': '85', 'subject': 'intro to cs'}},
+    {'issuer': 'haifa university', 'subject': 'student_1', 'listing': {'grade': '85', 'subject': 'data structures'}},
 ]
 
 
@@ -55,8 +55,8 @@ if __name__ == '__main__':
 
     blockchain.mine_block(entries)
     blockchain.get_chain()
+    chain_entries = blockchain.chain[1]['entries']
 
-    decrypt_entries(entries)
-    print(f'entries decrypted:\n{entries}')
-
-    issuer_verify(entries)
+    decrypt_entries(chain_entries)
+    print(f'entries decrypted:\n{chain_entries}')
+    issuer_verify(chain_entries)
