@@ -6,20 +6,25 @@ from Crypto.Signature import PKCS1_v1_5
 from Crypto.PublicKey import RSA
 
 
-def encrypt(entry, key):
+ENC_KEY = b'1234567890123456'
+SIG_KEY_PATH = 'items/private_key.pem'
+VER_KEY_PATH = 'items/public_key.pem'
+
+
+def encrypt(entry, key=ENC_KEY):
     msg_text = entry.ljust(64)
     cipher = AES.new(key, AES.MODE_ECB)
     encoded = base64.b64encode(cipher.encrypt(msg_text))
     return encoded
 
 
-def decrypt(entry, key):
+def decrypt(entry, key=ENC_KEY):
     cipher = AES.new(key, AES.MODE_ECB)
     decoded = cipher.decrypt(base64.b64decode(entry))
-    return decoded
+    return decoded.strip()
 
 
-def sign(text, key_path='../items/private_key.pem'):
+def sign(text, key_path=SIG_KEY_PATH):
 
     digest = SHA256.new()
     digest.update(text.encode())
@@ -34,7 +39,7 @@ def sign(text, key_path='../items/private_key.pem'):
     return signer.sign(digest)
 
 
-def verify(text, signature, key_path='../items/public_key.pem'):
+def verify(text, signature, key_path=VER_KEY_PATH):
 
     digest = SHA256.new()
     digest.update(text.encode())
@@ -45,7 +50,6 @@ def verify(text, signature, key_path='../items/public_key.pem'):
     verifier = PKCS1_v1_5.new(public_key)
     verified = verifier.verify(digest, signature)
     assert verified, 'Signature verification failed'
-    print(f'Successfully verified: {text}')
 
 
 if __name__ == '__main__':
