@@ -1,7 +1,7 @@
-/items/
 /.idea/
 
 __pycache__/
 *.py[cod]
 
 *.DS_Store
+/encryption/keys_config.py

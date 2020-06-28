@@ -12,8 +12,6 @@ from utils.utils import printout
 
 Blockchain.get_chain = printout(Blockchain.get_chain)
 
-SIG_KEY_PATH = '../items/private_key.pem'
-VER_KEY_PATH = '../items/public_key.pem'
 
 @pytest.fixture()
 def setup_blockchain():
@@ -41,23 +39,22 @@ def test_encryption():
 
 
 def test_entries_encryption():
-    # TODO - not deep copying properly
     encrypted_entries = encrypt_entries(entries)
-    # print (entries)
     decrypted_entries = decrypt_entries(encrypted_entries)
-    # print (entries)
-    assert True
+    for i, _entry in enumerate(entries):
+        assert _entry['listing'] == decrypted_entries[i]['listing']
 
 
 def test_signing():
     plain_text = 'text to encrypt'
-    signature = sign(plain_text, SIG_KEY_PATH)
-    verify(plain_text, signature, VER_KEY_PATH)
+    signature = sign(plain_text)
+    verify(plain_text, signature)
     assert verify
 
 
 def test_entries_signing():
-    assert True
+    signed_entries = issuer_signup(entries)
+    # issuer_verify(signed_entries)
 
 
 def test_block_encryption():

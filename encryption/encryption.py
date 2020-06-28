@@ -6,9 +6,7 @@ from Crypto.Signature import PKCS1_v1_5
 from Crypto.PublicKey import RSA
 
 
-ENC_KEY = b'1234567890123456'
-SIG_KEY_PATH = 'items/private_key.pem'
-VER_KEY_PATH = 'items/public_key.pem'
+from encryption.keys_config import ENC_KEY, SIG_KEY_PATH, VER_KEY_PATH
 
 
 def encrypt(entry, key=ENC_KEY):

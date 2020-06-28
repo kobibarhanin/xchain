@@ -1,4 +1,5 @@
 import json
+import copy
 
 from blockchain.blockchain import Blockchain
 from encryption.encryption import encrypt, decrypt,sign, verify
@@ -9,34 +10,29 @@ from entry.entries import entries
 Blockchain.get_chain = printout(Blockchain.get_chain)
 
 
-# ENC_KEY = b'1234567890123456'
-# SIG_KEY_PATH = 'items/private_key.pem'
-# VER_KEY_PATH = 'items/public_key.pem'
-
-
 def issuer_signup(_entries):
-    _tmp_entries = _entries.copy()
+    _tmp_entries = copy.deepcopy(_entries)
     for _entry in _tmp_entries:
         _entry['signature'] = sign(str(_entry['listing']))
     return _tmp_entries
 
 
 def encrypt_entries(_entries):
-    _tmp_entries = _entries.copy()
+    _tmp_entries = copy.deepcopy(_entries)
     for _entry in _tmp_entries:
         _entry['listing'] = encrypt(str(_entry['listing'])).decode('utf-8')
     return _tmp_entries
 
 
 def issuer_verify(_entries):
-    _tmp_entries = _entries.copy()
+    _tmp_entries = copy.deepcopy(_entries)
     for _entry in _tmp_entries:
         verify(str(_entry['listing']), _entry['signature'])
     return _tmp_entries
 
 
 def decrypt_entries(_entries):
-    _tmp_entries = _entries.copy()
+    _tmp_entries = copy.deepcopy(_entries)
     for _entry in _tmp_entries:
         deced = decrypt(str(_entry['listing'])).decode('utf-8')
         deced = json.loads(deced.replace("'", "\""))
