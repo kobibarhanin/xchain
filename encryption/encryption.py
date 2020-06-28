@@ -53,5 +53,5 @@ def verify(text, signature, key_path=VER_KEY_PATH):
 if __name__ == '__main__':
 
     test = 'sign me!'
-    sig = sign(test, '../items/private_key.pem')
-    verify(test, sig, '../items/public_key.pem')
+    sig = sign(test)
+    verify(test, sig)

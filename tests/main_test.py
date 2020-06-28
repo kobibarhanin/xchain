@@ -49,21 +49,38 @@ def test_signing():
     plain_text = 'text to encrypt'
     signature = sign(plain_text)
     verify(plain_text, signature)
-    assert verify
 
 
 def test_entries_signing():
     signed_entries = issuer_signup(entries)
-    # issuer_verify(signed_entries)
+    issuer_verify(signed_entries)
 
 
-def test_block_encryption():
-    assert True
+def test_block_encryption(setup_blockchain):
+    blockchain = setup_blockchain
+    encrypted_entries = encrypt_entries(entries)
+    blockchain.mine_block(encrypted_entries)
+    chain_entries = blockchain.chain[1]['entries']
+    decrypted_entries = decrypt_entries(chain_entries)
+    for i, _entry in enumerate(entries):
+        assert _entry['listing'] == decrypted_entries[i]['listing']
 
 
-def test_block_signing():
-    assert True
+def test_block_signing(setup_blockchain):
+    blockchain = setup_blockchain
+    signed_entries = issuer_signup(entries)
+    blockchain.mine_block(signed_entries)
+    chain_entries = blockchain.chain[1]['entries']
+    issuer_verify(chain_entries)
 
 
-def test_block_total_security():
-    assert True
+def test_block_total_security(setup_blockchain):
+    blockchain = setup_blockchain
+    signed_entries = issuer_signup(entries)
+    encrypted_entries = encrypt_entries(signed_entries)
+    blockchain.mine_block(encrypted_entries)
+    chain_entries = blockchain.chain[1]['entries']
+    decrypted_entries = decrypt_entries(chain_entries)
+    for i, _entry in enumerate(entries):
+        assert _entry['listing'] == decrypted_entries[i]['listing']
+    issuer_verify(decrypted_entries)
