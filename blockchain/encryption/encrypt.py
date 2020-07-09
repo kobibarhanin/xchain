@@ -2,12 +2,8 @@ import json
 import copy
 
 from blockchain.blockchain import Blockchain
-from encryption.encryption import encrypt, decrypt, sign, verify
+from .crypto import encrypt, decrypt, sign, verify
 from utils.utils import printout
-from entry.entries import entries
-
-
-Blockchain.get_chain = printout(Blockchain.get_chain)
 
 
 def issuer_signup(_entries, key_path):
@@ -41,6 +37,9 @@ def decrypt_entries(_entries, dec_key):
 
 
 if __name__ == '__main__':
+    from data.entries import entries
+
+    Blockchain.get_chain = printout(Blockchain.get_chain)
 
     blockchain = Blockchain()
     chain = blockchain.get_chain()

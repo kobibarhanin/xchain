@@ -1,91 +1,96 @@
 import pytest
-
-from os import sys, path
-sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+from os import path, remove
 
 from blockchain.blockchain import Blockchain
-from encryption.encryption import encrypt, decrypt, sign, verify
-from entry.entry import issuer_signup, encrypt_entries, issuer_verify, decrypt_entries
-from entry.entries import entries
-from utils.utils import printout
+from blockchain.encryption.crypto import encrypt, decrypt, sign, verify
+from blockchain.encryption.encrypt import issuer_signup, encrypt_entries, issuer_verify, decrypt_entries
+from blockchain.encryption.keymaker import generate_key
 
-from .test_keys_config import ENC_KEY, SIG_KEY_PATH, VER_KEY_PATH
+from data.entries import entries
 
-from encryption.keymaker import generate_key
 
-generate_key(f'{path.dirname(path.abspath(__file__))}/test_keys')
-
-Blockchain.get_chain = printout(Blockchain.get_chain)
+# ======= TEST FIXTURES ========
 
 
 @pytest.fixture()
-def setup_blockchain():
+def blockchain():
     blockchain = Blockchain()
     return blockchain
 
 
-def test_base_chain(setup_blockchain):
-    blockchain = setup_blockchain
+@pytest.fixture()
+def enc_key():
+    return b'1234567890123456'
+
+
+@pytest.fixture(scope="module")
+def rsa_key():
+    current_dir = path.dirname(path.abspath(__file__))
+    generate_key(path.dirname(path.abspath(__file__)))
+    yield f'{current_dir}/key.pem'
+    remove(f'{current_dir}/key.pem')
+
+
+# ========= TEST CASES =========
+
+
+def test_base_chain(blockchain):
     assert len(blockchain.chain) == 1
 
 
-def test_mine_block(setup_blockchain):
-    blockchain = setup_blockchain
+def test_mine_block(blockchain):
     blockchain.mine_block(entries)
     assert len(blockchain.chain) == 2
     assert len(blockchain.chain[1]['entries']) == len(entries)
 
 
-def test_encryption():
+def test_encryption(enc_key):
     plain_text = 'text to encrypt'
-    encrypted = encrypt(plain_text, ENC_KEY)
-    decrypted = decrypt(encrypted, ENC_KEY).decode('utf-8')
+    encrypted = encrypt(plain_text, enc_key)
+    decrypted = decrypt(encrypted, enc_key).decode('utf-8')
     assert plain_text == decrypted
 
 
-def test_entries_encryption():
-    encrypted_entries = encrypt_entries(entries, ENC_KEY)
-    decrypted_entries = decrypt_entries(encrypted_entries, ENC_KEY)
+def test_entries_encryption(enc_key):
+    encrypted_entries = encrypt_entries(entries, enc_key)
+    decrypted_entries = decrypt_entries(encrypted_entries, enc_key)
     for i, _entry in enumerate(entries):
         assert _entry['listing'] == decrypted_entries[i]['listing']
 
 
-def test_signing():
+def test_signing(rsa_key):
     plain_text = 'text to encrypt'
-    signature = sign(plain_text, SIG_KEY_PATH)
-    verify(plain_text, signature, VER_KEY_PATH)
+    signature = sign(plain_text, rsa_key)
+    verify(plain_text, signature, rsa_key)
 
 
-def test_entries_signing():
-    signed_entries = issuer_signup(entries, SIG_KEY_PATH)
-    issuer_verify(signed_entries, VER_KEY_PATH)
+def test_entries_signing(rsa_key):
+    signed_entries = issuer_signup(entries, rsa_key)
+    issuer_verify(signed_entries, rsa_key)
 
 
-def test_block_encryption(setup_blockchain):
-    blockchain = setup_blockchain
-    encrypted_entries = encrypt_entries(entries, ENC_KEY)
+def test_block_encryption(blockchain, enc_key):
+    encrypted_entries = encrypt_entries(entries, enc_key)
     blockchain.mine_block(encrypted_entries)
     chain_entries = blockchain.chain[1]['entries']
-    decrypted_entries = decrypt_entries(chain_entries, ENC_KEY)
+    decrypted_entries = decrypt_entries(chain_entries, enc_key)
     for i, _entry in enumerate(entries):
         assert _entry['listing'] == decrypted_entries[i]['listing']
 
 
-def test_block_signing(setup_blockchain):
-    blockchain = setup_blockchain
-    signed_entries = issuer_signup(entries, SIG_KEY_PATH)
+def test_block_signing(blockchain, rsa_key):
+    signed_entries = issuer_signup(entries, rsa_key)
     blockchain.mine_block(signed_entries)
     chain_entries = blockchain.chain[1]['entries']
-    issuer_verify(chain_entries, VER_KEY_PATH)
+    issuer_verify(chain_entries, rsa_key)
 
 
-def test_block_total_security(setup_blockchain):
-    blockchain = setup_blockchain
-    signed_entries = issuer_signup(entries, SIG_KEY_PATH)
-    encrypted_entries = encrypt_entries(signed_entries, ENC_KEY)
+def test_block_total_security(blockchain, enc_key, rsa_key):
+    signed_entries = issuer_signup(entries, rsa_key)
+    encrypted_entries = encrypt_entries(signed_entries, enc_key)
     blockchain.mine_block(encrypted_entries)
     chain_entries = blockchain.chain[1]['entries']
-    decrypted_entries = decrypt_entries(chain_entries, ENC_KEY)
+    decrypted_entries = decrypt_entries(chain_entries, enc_key)
     for i, _entry in enumerate(entries):
         assert _entry['listing'] == decrypted_entries[i]['listing']
-    issuer_verify(decrypted_entries, VER_KEY_PATH)
+    issuer_verify(decrypted_entries, rsa_key)

@@ -1,9 +1,9 @@
 from blockchain.blockchain import Blockchain
-from entry.entry import issuer_signup, encrypt_entries, issuer_verify, decrypt_entries
-from entry.entries import entries
-from utils.utils import printout
+from blockchain.encryption.encrypt import issuer_signup, encrypt_entries, issuer_verify, decrypt_entries
+from blockchain.encryption.keys_config import ENC_KEY, SIG_KEY_PATH, VER_KEY_PATH
 
-from encryption.keys_config import ENC_KEY, SIG_KEY_PATH, VER_KEY_PATH
+from data.entries import entries
+from utils.utils import printout
 
 
 Blockchain.get_chain = printout(Blockchain.get_chain)
