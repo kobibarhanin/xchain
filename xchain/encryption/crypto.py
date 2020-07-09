@@ -26,13 +26,8 @@ def sign(text, key_path):
 
     # Read shared key from file
     with open(key_path, "r") as key:
-        key_raw = key.read()
-        # print(key_raw)
-        # key_raw = key_raw.encode(encoding='UTF-8')
-        # print(key_raw)
-        private_key = RSA.importKey(key_raw)
-
-
+        key = key.read()
+        private_key = RSA.importKey(key)
 
     # Load private key and sign message
     signer = PKCS1_v1_5.new(private_key)
@@ -53,8 +48,3 @@ def verify(text, signature, key_path):
     assert verified, 'Signature verification failed'
 
 
-if __name__ == '__main__':
-
-    test = 'sign me!'
-    sig = sign(test)
-    verify(test, sig)

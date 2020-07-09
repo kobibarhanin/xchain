@@ -1,10 +1,10 @@
 import pytest
 from os import path, remove
 
-from blockchain.blockchain import Blockchain
-from blockchain.encryption.crypto import encrypt, decrypt, sign, verify
-from blockchain.encryption.encrypt import issuer_signup, encrypt_entries, issuer_verify, decrypt_entries
-from blockchain.encryption.keymaker import generate_key
+from xchain.xchain import Blockchain
+from xchain.encryption.crypto import encrypt, decrypt, sign, verify
+from xchain.encryption.encrypt import issuer_signup, encrypt_entries, issuer_verify, decrypt_entries
+from xchain.encryption.keymaker import generate_key
 
 from data.entries import entries
 

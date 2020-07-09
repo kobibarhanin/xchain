@@ -1,9 +1,7 @@
 import json
 import copy
 
-from blockchain.blockchain import Blockchain
 from .crypto import encrypt, decrypt, sign, verify
-from utils.utils import printout
 
 
 def issuer_signup(_entries, key_path):
@@ -34,28 +32,3 @@ def decrypt_entries(_entries, dec_key):
         deced = json.loads(deced.replace("'", "\""))
         _entry['listing'] = deced
     return _tmp_entries
-
-
-if __name__ == '__main__':
-    from data.entries import entries
-
-    Blockchain.get_chain = printout(Blockchain.get_chain)
-
-    blockchain = Blockchain()
-    chain = blockchain.get_chain()
-
-    print(f'entries:\n{entries}')
-
-    signed_entries = issuer_signup(entries)
-    print(f'entries signed:\n{entries}')
-
-    encrypted_entries = encrypt_entries(signed_entries)
-    print(f'entries encrypted:\n{encrypted_entries}')
-
-    blockchain.mine_block(encrypted_entries)
-    blockchain.get_chain()
-    chain_entries = blockchain.chain[1]['entries']
-
-    decrypted_entries = decrypt_entries(chain_entries)
-    print(f'entries decrypted:\n{decrypted_entries}')
-    issuer_verify(decrypted_entries)

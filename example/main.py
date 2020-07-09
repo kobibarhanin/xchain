@@ -1,9 +1,9 @@
-from blockchain.blockchain import Blockchain
-from blockchain.encryption.encrypt import issuer_signup, encrypt_entries, issuer_verify, decrypt_entries
-from blockchain.encryption.keys_config import ENC_KEY, SIG_KEY_PATH, VER_KEY_PATH
+from xchain.xchain import Blockchain
+from xchain.encryption.encrypt import issuer_signup, encrypt_entries, issuer_verify, decrypt_entries
+from example.keys_config import ENC_KEY, SIG_KEY_PATH, VER_KEY_PATH
 
 from data.entries import entries
-from utils.utils import printout
+from xchain.utils.utils import printout
 
 
 Blockchain.get_chain = printout(Blockchain.get_chain)
@@ -29,6 +29,3 @@ if __name__ == '__main__':
     decrypted_entries = decrypt_entries(chain_entries, ENC_KEY)
     print(f'entries decrypted:\n{decrypted_entries}')
     issuer_verify(decrypted_entries, VER_KEY_PATH)
-
-
-# from blockchain.encryption import issuer_signup
