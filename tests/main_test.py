@@ -6,7 +6,7 @@ from xchain.encryption.crypto import encrypt, decrypt, sign, verify
 from xchain.encryption.encrypt import issuer_signup, encrypt_entries, issuer_verify, decrypt_entries
 from xchain.encryption.keymaker import generate_key
 
-from data.entries import entries
+from tests.entries import entries
 
 
 # ======= TEST FIXTURES ========

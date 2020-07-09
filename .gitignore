@@ -4,5 +4,4 @@ __pycache__/
 *.py[cod]
 
 *.DS_Store
-/encryption/keys_config.py
-/tests/test_keys/
+/example/keys_config.py
