@@ -1,8 +1,0 @@
-
-Issuer verification:
-    - The issuer has a private key to sign it's reporting.
-    - Everyone can verify the issuer with known public key.
-
-Subject privacy:
-    - The issuer encrypts the signed listing with the subjects public key.
-    - Only the subject can reveal the information when needed.
