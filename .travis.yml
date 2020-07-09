@@ -7,8 +7,9 @@ python:
   - "3.7"
 
 install:
-  - pip install -r requirements.txt
+  - pip install pipenv
+  - pipenv install
 
 
 script:
-  - pytest -v -k 'not signing'
+  - pipenv run pytest -v -k 'not signing'

@@ -2,7 +2,7 @@ import json
 import copy
 
 from blockchain.blockchain import Blockchain
-from encryption.encryption import encrypt, decrypt,sign, verify
+from encryption.encryption import encrypt, decrypt, sign, verify
 from utils.utils import printout
 from entry.entries import entries
 
