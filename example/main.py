@@ -2,8 +2,8 @@ from xchain.xchain import Blockchain
 from xchain.encryption.encrypt import issuer_signup, encrypt_entries, issuer_verify, decrypt_entries
 from xchain.utils.utils import printout
 
-from example.keys_config import ENC_KEY, SIG_KEY_PATH, VER_KEY_PATH
-from example.entries import entries
+from example.data.keys_config import ENC_KEY, SIG_KEY_PATH, VER_KEY_PATH
+from example.data.entries import entries
 
 
 Blockchain.get_chain = printout(Blockchain.get_chain)
