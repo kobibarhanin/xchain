@@ -23,7 +23,7 @@ setuptools.setup(
                       "more-itertools==8.4.0", "packaging==20.4", "pkginfo==1.5.0.1", "pluggy==0.13.1", "py==1.9.0",
                       "pycrypto==2.6.1", "Pygments==2.6.1", "pyparsing==2.4.7", "pytest==5.4.3",
                       "readme-renderer==26.0", "requests==2.24.0", "requests-toolbelt==0.9.1", "rfc3986==1.4.0",
-                      "six==1.15.0", "tqdm==4.47.0", "twine==3.2.0", "urllib3==1.25.9", "wcwidth==0.2.5",
+                      "six==1.15.0", "tqdm==4.47.0", "twine==3.2.0", "urllib3==1.26.5", "wcwidth==0.2.5",
                       "webencodings==0.5.1", "zipp==3.1.0"],
     python_requires='>=3.7',
 )
