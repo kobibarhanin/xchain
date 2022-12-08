@@ -18,7 +18,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    install_requires=["attrs==19.3.0", "bleach==3.1.5", "certifi==2020.6.20", "chardet==3.0.4", "colorama==0.4.3",
+    install_requires=["attrs==19.3.0", "bleach==3.1.5", "certifi==2022.12.7", "chardet==3.0.4", "colorama==0.4.3",
                       "docutils==0.16", "idna==2.10", "importlib-metadata==1.7.0", "keyring==21.2.1",
                       "more-itertools==8.4.0", "packaging==20.4", "pkginfo==1.5.0.1", "pluggy==0.13.1", "py==1.9.0",
                       "pycrypto==2.6.1", "Pygments==2.6.1", "pyparsing==2.4.7", "pytest==5.4.3",
